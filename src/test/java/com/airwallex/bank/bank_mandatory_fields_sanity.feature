@@ -1,3 +1,4 @@
+@sanity
 Feature:
   As a API user of the AirWallex
   My POST should only work when I provide all the mandatory details
@@ -104,7 +105,7 @@ Feature:
     }
     """
 
-  Scenario: Payment Method SWIFT : Provide account_name
+  Scenario: Payment Method SWIFT : Provide all account details
     And request
     """
     {
@@ -112,6 +113,27 @@ Feature:
     bank_country_code: "US",
     account_name: "Satish A",
     swift_code: "ICBKUSBJ",
+    account_number: "057051809810"
+
+    }
+    """
+    When method POST
+    Then status 200
+    And match response ==
+    """
+    {
+    success:"Bank details saved"
+
+    }
+    """
+
+  Scenario: Payment Method LOCAL : Provide all account details
+    And request
+    """
+    {
+    payment_method: "LOCAL",
+    bank_country_code: "US",
+    account_name: "Satish A",
     account_number: "057051809810"
 
     }

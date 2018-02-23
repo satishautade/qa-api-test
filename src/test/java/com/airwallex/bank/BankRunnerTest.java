@@ -6,11 +6,13 @@ import org.junit.runner.RunWith;
 
 @RunWith(Karate.class)
 @CucumberOptions(features = {
-                      "src/test/java/com/airwallex/bank/bank_mandatory_fields.feature"
-                },
-                format = {"pretty", "html:reports"},
-                tags = {}
-                )
+        "src/test/java/com/airwallex/bank/bank_mandatory_fields_sanity.feature",
+        "src/test/java/com/airwallex/bank/add_LOCAL_banks.feature",
+        "src/test/java/com/airwallex/bank/add_overseas_banks_SWIFT.feature"
+},
+        format = {"pretty", "html:reports"},
+        tags = {"@bug1"}
+)
 public class BankRunnerTest {
 
 }
