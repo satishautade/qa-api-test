@@ -11,7 +11,7 @@ Feature: Adding LOCAL bank details
     Given path 'bank'
 
     # Define responses as variables to substitute in Scenario Outline Examples
-    * def account_number_required_error = {"error":"'account_number' is required"};
+    * def account_number_required_error = {"error":"'account_number' is required"}
     * def invalid_account_number_error = {"error":"Length of account_number should be between 7 and 11 when bank_country_code is 'US'"}
     * def account_details_saved_success = {"success": "Bank details saved"}
 
@@ -52,10 +52,15 @@ Feature: Adding LOCAL bank details
       | "12345678910111212" | 400                  | {error: "'aba' is required when bank country code is 'US'"} |
     # The error message above is NOT returned by API but it's derived from similar error for AU
 
+  @bug4 @ignore
+    Examples: For US, account_number:"0" is saved successfully. It doesn't appear to be valid account_number.
+      | account_no | expected_http_status | expected_response             |
+      | "0"        | 400                  | account_number_required_error |
+
   @invalid
     Examples: For US Invalid account_number are outside 1 - 17 range
       | account_no                                                     | expected_http_status | expected_response             |
-    # account number 0 characters long
+    #  account number empty or zero
       | ""                                                             | 400                  | account_number_required_error |
     # account number 18 or more characters long
       | "123456095238092099"                                           | 400                  | invalid_account_number_error  |
@@ -89,16 +94,23 @@ Feature: Adding LOCAL bank details
 
   @au @invalid
     Examples: For AU INVALID account_number are within 6 - 9 range
-      | account_no                                                     | expected_http_status | expected_response            |
+      | account_no                                                     | expected_http_status | expected_response             |
+    #  account number empty or zero
+      | ""                                                             | 400                  | account_number_required_error |
     # account number less than 6 characters long
-      | " "                                                            | 400                  | invalid_account_number_error |
-      | "1"                                                            | 400                  | invalid_account_number_error |
-      | "12345"                                                        | 400                  | invalid_account_number_error |
+      | " "                                                            | 400                  | invalid_account_number_error  |
+      | "1"                                                            | 400                  | invalid_account_number_error  |
+      | "12345"                                                        | 400                  | invalid_account_number_error  |
    # account number more than 9 characters long
-      | "          "                                                   | 400                  | invalid_account_number_error |
-      | "1234567890"                                                   | 400                  | invalid_account_number_error |
-      | "123456789ABCDEFGHIJ"                                          | 400                  | invalid_account_number_error |
-      | "123456095kjasgkbh98943s7897498379DSFBBUSVSL';[;][87693826796" | 400                  | invalid_account_number_error |
+      | "          "                                                   | 400                  | invalid_account_number_error  |
+      | "1234567890"                                                   | 400                  | invalid_account_number_error  |
+      | "123456789ABCDEFGHIJ"                                          | 400                  | invalid_account_number_error  |
+      | "123456095kjasgkbh98943s7897498379DSFBBUSVSL';[;][87693826796" | 400                  | invalid_account_number_error  |
+
+  @bug5 @ignore
+    Examples: For AU and CN, account_number:"0" returns invalid_account_number_error instead of account_number_required_error
+      | account_no | expected_http_status | expected_response             |
+      | "0"        | 400                  | account_number_required_error |
 
 
   @cn @local @account_number
@@ -135,17 +147,24 @@ Feature: Adding LOCAL bank details
 
   @cn @invalid
     Examples: For CN INVALID account_number are outside 8 - 20 range
-      | account_no | expected_http_status | expected_response            |
+      | account_no                                                     | expected_http_status | expected_response             |
+    #  account number empty or zero
+      | ""                                                             | 400                  | account_number_required_error |
     # account number less than 8 characters long
-      | " "        | 400                  | invalid_account_number_error |
-      | "1"        | 400                  | invalid_account_number_error |
-      | "12345"    | 400                  | invalid_account_number_error |
+      | " "                                                            | 400                  | invalid_account_number_error  |
+      | "1"                                                            | 400                  | invalid_account_number_error  |
+      | "12345"                                                        | 400                  | invalid_account_number_error  |
     # account number more than 20 characters long
-      | "                     "                                        | 400                  | invalid_account_number_error |
-      | "123456789ABCDEFGHIJafloiu"                                    | 400                  | invalid_account_number_error |
-      | "123456095kjasgkbh98943s7897498379DSFBBUSVSL';[;][87693826796" | 400                  | invalid_account_number_error |
+      | "                     "                                        | 400                  | invalid_account_number_error  |
+      | "123456789ABCDEFGHIJafloiu"                                    | 400                  | invalid_account_number_error  |
+      | "123456095kjasgkbh98943s7897498379DSFBBUSVSL';[;][87693826796" | 400                  | invalid_account_number_error  |
+
+  @bug5 @ignore
+    Examples: For AU and CN, account_number:"0" returns invalid_account_number_error instead of account_number_required_error
+      | account_no | expected_http_status | expected_response             |
+      | "0"        | 400                  | account_number_required_error |
 
   @bug3 @ignore
     Examples: For bank_country_code:"CN", minimum length of account_number is only 7 characters (should be 8 as per requirements)
-      | account_no  | expected_http_status | expected_response            |
-      | "1234567"   | 400                  | invalid_account_number_error |
+      | account_no | expected_http_status | expected_response            |
+      | "1234567"  | 400                  | invalid_account_number_error |
