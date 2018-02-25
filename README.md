@@ -44,5 +44,5 @@ For AU and CN, `account_number:"0"` returns `{"error":"Length of account_number 
   1. The convention is to return HTTP `201 - Created` when a resource gets created on the server. Reference https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/201. Consider returning the same after a successful POST of the account information as account resource gets created in this case.
 # Mindmap
  
-![Alt text](AirWallex API Bank - Business Rules.svg)
-<img src=".//AirWallex\ API\ Bank\ -\ Business\ Rules.svg">
+![AirWallex API Bank - Business Rules](./mindmap.svg)
+<img src= "./mindmap.svg">
