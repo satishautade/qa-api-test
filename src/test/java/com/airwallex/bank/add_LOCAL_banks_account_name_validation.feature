@@ -42,6 +42,9 @@ Feature: Adding LOCAL bank details
     # boundary 9 and 10 characters
       | "US"    | "ABCDEFG A"  | 200                  | account_details_saved_success |
       | "US"    | "ABCDEFG AB" | 200                  | account_details_saved_success |
+     # length 10, special characters / Non English characters
+      | "US"    | "ñ語中$ñ語中$ñ語" | 200                  | account_details_saved_success |
+      | "US"    | "a<u>?&rega" | 200                  | account_details_saved_success |
 
   @au @valid
     Examples: Valid account names are 2-10 characters long
@@ -53,7 +56,9 @@ Feature: Adding LOCAL bank details
     # boundary 9 and 10 characters
       | "AU"    | "ABCDEFG A"  | 200                  | account_details_saved_success |
       | "AU"    | "ABCDEFG AB" | 200                  | account_details_saved_success |
-
+     # length 10, special characters / Non English characters
+      | "AU"    | "ñ語中$ñ語中$ñ語" | 200                  | account_details_saved_success |
+      | "AU"    | "a<u>?&rega" | 200                  | account_details_saved_success |
 
   @cn @valid
     Examples: Valid account names are 2-10 characters long
@@ -65,49 +70,67 @@ Feature: Adding LOCAL bank details
     # boundary 9 and 10 characters
       | "CN"    | "ABCDEFG A"  | 200                  | account_details_saved_success |
       | "CN"    | "ABCDEFG AB" | 200                  | account_details_saved_success |
+    # length 10, special characters / Non English characters
+      | "CN"    | "ñ語中$ñ語中$ñ語" | 200                  | account_details_saved_success |
+      | "CN"    | "a<u>?&rega" | 200                  | account_details_saved_success |
 
 
   @us @invalid
     Examples: Invalid account names outside 2-10 range
-      | country | account_name                              | expected_http_status | expected_response           |
+      | country | account_name                               | expected_http_status | expected_response           |
     # Empty account name
-      | "US"    | ""                                        | 400                  | account_name_required_error |
+      | "US"    | ""                                         | 400                  | account_name_required_error |
     # account names 1 character long that being space/special characters
-      | "US"    | " "                                       | 400                  | account_name_length_error   |
-      | "US"    | "."                                       | 400                  | account_name_length_error   |
-      | "US"    | "$"                                       | 400                  | account_name_length_error   |
+      | "US"    | " "                                        | 400                  | account_name_length_error   |
+      | "US"    | "."                                        | 400                  | account_name_length_error   |
+      | "US"    | "$"                                        | 400                  | account_name_length_error   |
     # account names more than 10 characters and special characters
-      | "US"    | "13 Characters"                           | 400                  | account_name_length_error   |
-      | "US"    | "ihiuhegidfkhdksdfh427589734894"          | 400                  | account_name_length_error   |
-      | "US"    | "ihiuhegidfkh!~#$%^&*()_+{}h427589734894" | 400                  | account_name_length_error   |
+      | "US"    | "13 Characters"                            | 400                  | account_name_length_error   |
+      | "US"    | "ihiuhegidfkhdksdfh427589734894"           | 400                  | account_name_length_error   |
+      | "US"    | "ihiuhegidfkh!~#$%^&*()_+{}h427589734894"  | 400                  | account_name_length_error   |
+    # special characters / kill string / Non English characters
+      | "US"    | "ñ語中$ñ語中$ñ語中$ñ語中$ñ語中$ñ語中$"          | 400                  | account_name_length_error   |
+      | "US"    | "a<u>?&rega<u>?&reg;#ñ語中${{=">'>%AE</u>}}" | 400                  | account_name_length_error   |
 
 
 
   @au @invalid
     Examples: Invalid account names outside 2-10 range
-      | country | account_name                              | expected_http_status | expected_response           |
+      | country | account_name                               | expected_http_status | expected_response           |
     # Empty account name
-      | "AU"    | ""                                        | 400                  | account_name_required_error |
+      | "AU"    | ""                                         | 400                  | account_name_required_error |
     # account names 1 character long that being space/special characters
-      | "AU"    | " "                                       | 400                  | account_name_length_error   |
-      | "AU"    | "."                                       | 400                  | account_name_length_error   |
-      | "AU"    | "$"                                       | 400                  | account_name_length_error   |
+      | "AU"    | " "                                        | 400                  | account_name_length_error   |
+      | "AU"    | "."                                        | 400                  | account_name_length_error   |
+      | "AU"    | "$"                                        | 400                  | account_name_length_error   |
     # account names more than 10 characters and special characters
-      | "AU"    | "13 Characters"                           | 400                  | account_name_length_error   |
-      | "AU"    | "ihiuhegidfkhdksdfh427589734894"          | 400                  | account_name_length_error   |
-      | "AU"    | "ihiuhegidfkh!~#$%^&*()_+{}h427589734894" | 400                  | account_name_length_error   |
+      | "AU"    | "13 Characters"                            | 400                  | account_name_length_error   |
+      | "AU"    | "ihiuhegidfkhdksdfh427589734894"           | 400                  | account_name_length_error   |
+      | "AU"    | "ihiuhegidfkh!~#$%^&*()_+{}h427589734894"  | 400                  | account_name_length_error   |
+     # special characters / kill string / Non English characters
+      | "AU"    | "ñ語中$ñ語中$ñ語中$ñ語中$ñ語中$ñ語中$"          | 400                  | account_name_length_error   |
+      | "AU"    | "a<u>?&rega<u>?&reg;#ñ語中${{=">'>%AE</u>}}" | 400                  | account_name_length_error   |
 
 
   @cn @invalid
     Examples: Invalid account names outside 2-10 range
-      | country | account_name                              | expected_http_status | expected_response           |
+      | country | account_name                               | expected_http_status | expected_response           |
     # Empty account name
-      | "CN"    | ""                                        | 400                  | account_name_required_error |
+      | "CN"    | ""                                         | 400                  | account_name_required_error |
     # account names 1 character long that being space/special characters
-      | "CN"    | " "                                       | 400                  | account_name_length_error   |
-      | "CN"    | "."                                       | 400                  | account_name_length_error   |
-      | "CN"    | "$"                                       | 400                  | account_name_length_error   |
+      | "CN"    | " "                                        | 400                  | account_name_length_error   |
+      | "CN"    | "."                                        | 400                  | account_name_length_error   |
+      | "CN"    | "$"                                        | 400                  | account_name_length_error   |
     # account names more than 10 characters and special characters
-      | "CN"    | "13 Characters"                           | 400                  | account_name_length_error   |
-      | "CN"    | "ihiuhegidfkhdksdfh427589734894"          | 400                  | account_name_length_error   |
-      | "CN"    | "ihiuhegidfkh!~#$%^&*()_+{}h427589734894" | 400                  | account_name_length_error   |
+      | "CN"    | "13 Characters"                            | 400                  | account_name_length_error   |
+      | "CN"    | "ihiuhegidfkhdksdfh427589734894"           | 400                  | account_name_length_error   |
+      | "CN"    | "ihiuhegidfkh!~#$%^&*()_+{}h427589734894"  | 400                  | account_name_length_error   |
+      # special characters / kill string / Non English characters
+      | "CN"    | "ñ語中$ñ語中$ñ語中$ñ語中$ñ語中$ñ語中$"         | 400                  | account_name_length_error   |
+      | "CN"    | "a<u>?&rega<u>?&reg;#ñ語中${{=">'>%AE</u>}}" | 400                  | account_name_length_error   |
+
+  @bug6 @ignore
+    Examples: Numeric account_name like `123456789` should NOT be saved successfully. Account name is always a string.
+      | account_name | expected_http_status | expected_response           |
+      #  numeric (not STRING) 9 characters long
+      | 057051809    | 400                  | account_name_required_error |

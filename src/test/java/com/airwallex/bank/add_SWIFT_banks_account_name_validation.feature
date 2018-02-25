@@ -32,7 +32,7 @@ Feature: Adding overseas bank details - SWIFT
     Then status <expected_http_status>
     And match response == <expected_response>
 
-   @valid
+  @valid
     Examples: Valid account names are 2-10 characters long
       | account_name | expected_http_status | expected_response             |
     # 2 characters
@@ -42,21 +42,28 @@ Feature: Adding overseas bank details - SWIFT
     # boundary 9 and 10 characters
       | "ABCDEFG A"  | 200                  | account_details_saved_success |
       | "ABCDEFG AB" | 200                  | account_details_saved_success |
+     # length 10, special characters / Non English characters
+      | "ñ語中$ñ語中$ñ語" | 200                  | account_details_saved_success |
+      | "a<u>?&rega" | 200                  | account_details_saved_success |
+
 
 
   @us @invalid
     Examples: Invalid account names outside 2-10 range
-      | account_name                              | expected_http_status | expected_response           |
+      | account_name                               | expected_http_status | expected_response           |
     # Empty account name
-      | ""                                        | 400                  | account_name_required_error |
+      | ""                                         | 400                  | account_name_required_error |
     # account names 1 character long that being space/special characters
-      | " "                                       | 400                  | account_name_length_error   |
-      | "."                                       | 400                  | account_name_length_error   |
-      | "$"                                       | 400                  | account_name_length_error   |
+      | " "                                        | 400                  | account_name_length_error   |
+      | "."                                        | 400                  | account_name_length_error   |
+      | "$"                                        | 400                  | account_name_length_error   |
     # account names more than 10 characters and special characters
-      | "13 Characters"                           | 400                  | account_name_length_error   |
-      | "ihiuhegidfkhdksdfh427589734894"          | 400                  | account_name_length_error   |
-      | "ihiuhegidfkh!~#$%^&*()_+{}h427589734894" | 400                  | account_name_length_error   |
+      | "13 Characters"                            | 400                  | account_name_length_error   |
+      | "ihiuhegidfkhdksdfh427589734894"           | 400                  | account_name_length_error   |
+      | "ihiuhegidfkh!~#$%^&*()_+{}h427589734894"  | 400                  | account_name_length_error   |
+     # special characters / kill string / Non English characters
+      | "ñ語中$ñ語中$ñ語中$ñ語中$ñ語中$ñ語中$"                 | 400                  | account_name_length_error   |
+      | "a<u>?&rega<u>?&reg;#ñ語中${{=">'>%AE</u>}}" | 400                  | account_name_length_error   |
 
 
   @au @account_name
@@ -77,7 +84,7 @@ Feature: Adding overseas bank details - SWIFT
     Then status <expected_http_status>
     And match response == <expected_response>
 
-   @valid
+  @valid
     Examples: Valid account names are 2-10 characters long
       | account_name | expected_http_status | expected_response             |
     # 2 characters
@@ -87,20 +94,27 @@ Feature: Adding overseas bank details - SWIFT
     # boundary 9 and 10 characters
       | "ABCDEFG A"  | 200                  | account_details_saved_success |
       | "ABCDEFG AB" | 200                  | account_details_saved_success |
+     # length 10, special characters / Non English characters
+      | "ñ語中$ñ語中$ñ語" | 200                  | account_details_saved_success |
+      | "a<u>?&rega" | 200                  | account_details_saved_success |
 
-   @invalid
+
+  @invalid
     Examples: Invalid account names outside 2-10 range
-      | account_name                              | expected_http_status | expected_response           |
+      | account_name                               | expected_http_status | expected_response           |
     # Empty account name
-      | ""                                        | 400                  | account_name_required_error |
+      | ""                                         | 400                  | account_name_required_error |
     # account names 1 character long that being space/special characters
-      | " "                                       | 400                  | account_name_length_error   |
-      | "."                                       | 400                  | account_name_length_error   |
-      | "$"                                       | 400                  | account_name_length_error   |
+      | " "                                        | 400                  | account_name_length_error   |
+      | "."                                        | 400                  | account_name_length_error   |
+      | "$"                                        | 400                  | account_name_length_error   |
     # account names more than 10 characters and special characters
-      | "13 Characters"                           | 400                  | account_name_length_error   |
-      | "ihiuhegidfkhdksdfh427589734894"          | 400                  | account_name_length_error   |
-      | "ihiuhegidfkh!~#$%^&*()_+{}h427589734894" | 400                  | account_name_length_error   |
+      | "13 Characters"                            | 400                  | account_name_length_error   |
+      | "ihiuhegidfkhdksdfh427589734894"           | 400                  | account_name_length_error   |
+      | "ihiuhegidfkh!~#$%^&*()_+{}h427589734894"  | 400                  | account_name_length_error   |
+    # special characters / kill string / Non English characters
+      | "ñ語中$ñ語中$ñ語中$ñ語中$ñ語中$ñ語中$"                 | 400                  | account_name_length_error   |
+      | "a<u>?&rega<u>?&reg;#ñ語中${{=">'>%AE</u>}}" | 400                  | account_name_length_error   |
 
 
   @cn @account_name
@@ -120,7 +134,7 @@ Feature: Adding overseas bank details - SWIFT
     Then status <expected_http_status>
     And match response == <expected_response>
 
-   @valid
+  @valid
     Examples: Valid account names are 2-10 characters long
       | account_name | expected_http_status | expected_response             |
     # 2 characters
@@ -130,17 +144,30 @@ Feature: Adding overseas bank details - SWIFT
     # boundary 9 and 10 characters
       | "ABCDEFG A"  | 200                  | account_details_saved_success |
       | "ABCDEFG AB" | 200                  | account_details_saved_success |
+      # length 10, special characters / Non English characters
+      | "ñ語中$ñ語中$ñ語" | 200                  | account_details_saved_success |
+      | "a<u>?&rega" | 200                  | account_details_saved_success |
 
-   @invalid
+  @invalid
     Examples: Invalid account names outside 2-10 range
-      | account_name                              | expected_http_status | expected_response           |
+      | account_name                               | expected_http_status | expected_response           |
     # Empty account name
-      | ""                                        | 400                  | account_name_required_error |
+      | ""                                         | 400                  | account_name_required_error |
     # account names 1 character long that being space/special characters
-      | " "                                       | 400                  | account_name_length_error   |
-      | "."                                       | 400                  | account_name_length_error   |
-      | "$"                                       | 400                  | account_name_length_error   |
+      | " "                                        | 400                  | account_name_length_error   |
+      | "."                                        | 400                  | account_name_length_error   |
+      | "$"                                        | 400                  | account_name_length_error   |
     # account names more than 10 characters and special characters
-      | "13 Characters"                           | 400                  | account_name_length_error   |
-      | "ihiuhegidfkhdksdfh427589734894"          | 400                  | account_name_length_error   |
-      | "ihiuhegidfkh!~#$%^&*()_+{}h427589734894" | 400                  | account_name_length_error   |
+      | "13 Characters"                            | 400                  | account_name_length_error   |
+      | "ihiuhegidfkhdksdfh427589734894"           | 400                  | account_name_length_error   |
+      | "ihiuhegidfkh!~#$%^&*()_+{}h427589734894"  | 400                  | account_name_length_error   |
+      # special characters / kill string / Non English characters
+      | "ñ語中$ñ語中$ñ語中$ñ語中$ñ語中$ñ語中$"                 | 400                  | account_name_length_error   |
+      | "a<u>?&rega<u>?&reg;#ñ語中${{=">'>%AE</u>}}" | 400                  | account_name_length_error   |
+
+  @bug6 @ignore
+    Examples: Numeric account_name like `123456789` should NOT be saved successfully. Account name is always a string.
+      | account_name | expected_http_status | expected_response           |
+      #  numeric (not STRING) 9 characters long
+      | 057051809    | 400                  | account_name_required_error |
+

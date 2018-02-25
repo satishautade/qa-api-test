@@ -45,6 +45,27 @@ Feature:
     }
     """
 
+  @run
+  Scenario: payment_method as SWIFT Provide country code than AU, US, CN
+    And request
+    """
+    {
+    payment_method: "SWIFT",
+    swift_code: "ABCDZH12",
+    bank_country_code: "ZH"
+
+    }
+    """
+    When method POST
+    Then status 400
+    And match response ==
+    """
+    {
+    error:"'bank_country_code' is required, and should be one of 'US', 'AU', or 'CN'"
+
+    }
+    """
+
   Scenario: Provide bank_country_code as US
     And request
     """

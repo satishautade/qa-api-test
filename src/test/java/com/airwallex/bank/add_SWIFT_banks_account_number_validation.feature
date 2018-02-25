@@ -33,7 +33,7 @@ Feature: Adding overseas bank details - SWIFT
     Then status <expected_http_status>
     And match response == <expected_response>
 
-   @valid
+  @valid
     Examples: Valid account numbers for US are 1-17 length (Needs to be confirmed)
       | account_no          | expected_http_status | expected_response             |
       # length 1 any character/whitespace or special
@@ -75,7 +75,7 @@ Feature: Adding overseas bank details - SWIFT
       | 05705180981998090                                              | 400                  | invalid_account_number_error  |
       # special characters / kill string / Non English characters
       | "a<u>?&reg;#</u>}}"                                            | 400                  | invalid_account_number_error  |
-      | "ñ語中$ñ語中$ñ語中$ñ語中$ñ語中$ñ語中$"                             | 400                  | invalid_account_number_error  |
+      | "ñ語中$ñ語中$ñ語中$ñ語中$ñ語中$ñ語中$"                                     | 400                  | invalid_account_number_error  |
 
 
   @au @account_number
@@ -115,6 +115,7 @@ Feature: Adding overseas bank details - SWIFT
       | ""                                                             | 400                  | account_number_required_error |
       # account number less than 6 characters long
       | "."                                                            | 400                  | invalid_account_number_error  |
+      | "0"                                                            | 400                  | invalid_account_number_error  |
       | "1"                                                            | 400                  | invalid_account_number_error  |
       | "12345"                                                        | 400                  | invalid_account_number_error  |
       | "@#$ ^"                                                        | 400                  | invalid_account_number_error  |
@@ -128,12 +129,6 @@ Feature: Adding overseas bank details - SWIFT
       # special characters / kill string / Non English characters
       | "a<u>?&rega<u>?&reg;#ñ語中${{=">'>%AE</u>}}"                     | 400                  | invalid_account_number_error  |
       | "ñ語中$ñ語中$ñ語中$ñ語中$ñ語中$ñ語中$"                                     | 400                  | invalid_account_number_error  |
-
-
-  @bug5 @ignore
-    Examples: For AU and CN, account_number:"0" returns invalid_account_number_error instead of account_number_required_error
-      | account_no | expected_http_status | expected_response             |
-      | "0"        | 400                  | account_number_required_error |
 
 
   @cn @account_number
@@ -179,6 +174,7 @@ Feature: Adding overseas bank details - SWIFT
       | ""                                                             | 400                  | account_number_required_error |
       # account number less than 8 characters long
       | "."                                                            | 400                  | invalid_account_number_error  |
+      | "0"                                                            | 400                  | invalid_account_number_error  |
       | " "                                                            | 400                  | invalid_account_number_error  |
       | "1"                                                            | 400                  | invalid_account_number_error  |
       | "12345"                                                        | 400                  | invalid_account_number_error  |
@@ -189,14 +185,9 @@ Feature: Adding overseas bank details - SWIFT
       #  numeric (not STRING) 9 characters long
       | 057051809                                                      | 400                  | invalid_account_number_error  |
       # special characters / kill string / Non English characters
-      | "a<u>?&rega<u>?&reg;#ñ語中${{=">'>%AE</u>}}"                    | 400                  | invalid_account_number_error  |
-      | "ñ語中$ñ語中$ñ語中$ñ語中$ñ語中$ñ語中$"                             | 400                  | invalid_account_number_error  |
+      | "ñ語中$ñ語中$ñ語中$ñ語中$ñ語中$ñ語中$"                               | 400                  | invalid_account_number_error  |
+      | "a<u>?&rega<u>?&reg;#ñ語中${{=">'>%AE</u>}}"                     | 400                  | invalid_account_number_error  |
 
-
-  @bug5 @ignore
-    Examples: For AU and CN, account_number:"0" returns invalid_account_number_error instead of account_number_required_error
-      | account_no | expected_http_status | expected_response             |
-      | "0"        | 400                  | account_number_required_error |
 
   @bug3 @ignore
     Examples: For bank_country_code:"CN", minimum length of account_number is only 7 characters (should be 8 as per requirements)

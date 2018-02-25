@@ -35,8 +35,10 @@ Shouldn't we have at least few alphanumeric characters along with whitespaces an
  2. For `bank_country_code:"CN"`, maximum length of `account_number` is only `9` characters (should be `20` as per requirements)
  3. For `bank_country_code:"CN"`, minimum length of `account_number` is only `7` characters (should be `8` as per requirements)
  4. For `bank_country_code:"US"`, `account_number:"0"` is saved Successfully. It doesn't appear to be valid account_number.
- 5. For AU and CN, `account_number:"0"` returns `{"error":"Length of account_number should be between 7 and 11 when bank_country_code is 'US'"}` instead of `{"error":"'account_number' is required"}`
-    
+ 5. swift_code of length `9` and `10` should NOT be saved successfully. As per requirements, valid swift_code is either `8 or 11` characters long.
+ 6. Numeric account_name like `123456789` should NOT be saved successfully. Account name is always a string.   
+#### Observations
+For AU and CN, `account_number:"0"` returns `{"error":"Length of account_number should be between 7 and 11 when bank_country_code is 'US'"}`. Since this equivalent to no account number at all, should we return `{"error":"'account_number' is required"}` instead?
 ## Improvements/Suggestions
 
   1. The convention is to return HTTP `201 - Created` when a resource gets created on the server. Reference https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/201. Consider returning the same after a successful POST of the account information as account resource gets created in this case.
