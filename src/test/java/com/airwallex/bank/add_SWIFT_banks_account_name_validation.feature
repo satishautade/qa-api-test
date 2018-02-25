@@ -1,8 +1,8 @@
 @swift
-Feature: Adding LOCAL bank details
+Feature: Adding overseas bank details - SWIFT
   As a API user of the AirWallex
-  I should be able to use LOCAL payment methods
-  So that I can transact with local banks.
+  I should be able to use SWIFT payment methods
+  So that I can transact with overseas banks.
 
   Background:
     # Server URL
@@ -15,7 +15,7 @@ Feature: Adding LOCAL bank details
     * def account_name_required_error = {"error":"'account_name' is required"}
     * def account_name_length_error = {"error":"Length of account_name should be between 2 and 10"}
 
-  @swift @account_name
+  @us @account_name
   Scenario Outline: Payment method LOCAL: Verify account_name for country US
     And request
     """
@@ -32,7 +32,7 @@ Feature: Adding LOCAL bank details
     Then status <expected_http_status>
     And match response == <expected_response>
 
-  @us @valid
+   @valid
     Examples: Valid account names are 2-10 characters long
       | account_name | expected_http_status | expected_response             |
     # 2 characters
@@ -59,7 +59,7 @@ Feature: Adding LOCAL bank details
       | "ihiuhegidfkh!~#$%^&*()_+{}h427589734894" | 400                  | account_name_length_error   |
 
 
-  @swift @account_name
+  @au @account_name
   Scenario Outline: Payment method LOCAL: Verify account_name for country AU
     And request
     """
@@ -77,7 +77,7 @@ Feature: Adding LOCAL bank details
     Then status <expected_http_status>
     And match response == <expected_response>
 
-  @au @valid
+   @valid
     Examples: Valid account names are 2-10 characters long
       | account_name | expected_http_status | expected_response             |
     # 2 characters
@@ -88,7 +88,7 @@ Feature: Adding LOCAL bank details
       | "ABCDEFG A"  | 200                  | account_details_saved_success |
       | "ABCDEFG AB" | 200                  | account_details_saved_success |
 
-  @au @invalid
+   @invalid
     Examples: Invalid account names outside 2-10 range
       | account_name                              | expected_http_status | expected_response           |
     # Empty account name
@@ -103,8 +103,8 @@ Feature: Adding LOCAL bank details
       | "ihiuhegidfkh!~#$%^&*()_+{}h427589734894" | 400                  | account_name_length_error   |
 
 
-  @swift @account_name
-  Scenario Outline: Payment method LOCAL: Verify account_name for country AU
+  @cn @account_name
+  Scenario Outline: Payment method LOCAL: Verify account_name for country CN
     And request
     """
     {
@@ -120,7 +120,7 @@ Feature: Adding LOCAL bank details
     Then status <expected_http_status>
     And match response == <expected_response>
 
-  @cn @valid
+   @valid
     Examples: Valid account names are 2-10 characters long
       | account_name | expected_http_status | expected_response             |
     # 2 characters
@@ -131,7 +131,7 @@ Feature: Adding LOCAL bank details
       | "ABCDEFG A"  | 200                  | account_details_saved_success |
       | "ABCDEFG AB" | 200                  | account_details_saved_success |
 
-  @cn @invalid
+   @invalid
     Examples: Invalid account names outside 2-10 range
       | account_name                              | expected_http_status | expected_response           |
     # Empty account name
