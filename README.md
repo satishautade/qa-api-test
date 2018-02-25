@@ -31,7 +31,7 @@ Shouldn't we have at least few alphanumeric characters along with whitespaces an
  mvn test -Dcucumber.options="--tags @bug3"
  ```
  #### Bugs Found
- 1. Providing `aba` is NOT enforced for `payment_method:"LOCAL"` and `bank_country_code: "US"`.
+ 1. Providing `aba` is NOT enforced for `bank_country_code: "US"` in both payment methods (LOCAL and SWIFT).
  2. For `bank_country_code:"CN"`, maximum length of `account_number` is only `9` characters (should be `20` as per requirements)
  3. For `bank_country_code:"CN"`, minimum length of `account_number` is only `7` characters (should be `8` as per requirements)
  4. For `bank_country_code:"US"`, `account_number:"0"` is saved Successfully. It doesn't appear to be valid account_number.
