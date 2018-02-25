@@ -13,6 +13,9 @@ The generated HTML reports for test runs can be found under
 `qa-api-test/target/surefire-reports`
 
 # Business Requirement Analysis:
+
+![AirWallex API Bank - Business Rules](./mindmap.svg)
+
 ### Requires Clarifications
 1. Inconsistency in the requirement of valid account number length for US:
 As per requirements document, for US, the account numbers with length 1 - 17 characters are valid. 
@@ -40,9 +43,5 @@ Shouldn't we have at least few alphanumeric characters along with whitespaces an
 #### Observations
 For AU and CN, `account_number:"0"` returns `{"error":"Length of account_number should be between 7 and 11 when bank_country_code is 'US'"}`. Since this equivalent to no account number at all, should we return `{"error":"'account_number' is required"}` instead?
 ## Improvements/Suggestions
+ 1. The convention is to return HTTP `201 - Created` when a resource gets created on the server. Reference https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/201. Consider returning the same after a successful POST of the account information as account resource gets created in this case.
 
-  1. The convention is to return HTTP `201 - Created` when a resource gets created on the server. Reference https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/201. Consider returning the same after a successful POST of the account information as account resource gets created in this case.
-# Mindmap
- 
-![AirWallex API Bank - Business Rules](./mindmap.svg)
-<img src= "./mindmap.svg">
