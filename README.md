@@ -21,7 +21,7 @@ But the error message API speaks of a different length requirement.
  `Length of account_number should be between 7 and 11 when bank_country_code is 'US'`
 Which appears to be more correct.
 
-2. For US, account_number = " " or "~!@$%^&*_+|:><?" should NOT pass the validation but it does. What is the point of allowing this? Are such account numbers any useful?
+2. For account_number = " \t \r \n" (whitespaces) or "~!@$%^&*_+|:><?" (special characters) should NOT pass the validation but it does. What is the point of allowing this? Are such account numbers any useful?
 Shouldn't we have at least few alphanumeric characters along with whitespaces and special characters for valid account numbers?
 
  # Bugs
@@ -31,7 +31,7 @@ Shouldn't we have at least few alphanumeric characters along with whitespaces an
  mvn test -Dcucumber.options="--tags @bug3"
  ```
  #### Bugs Found
- 1. Providing `bsb` is NOT enforced for `payment_method:"LOCAL"` and `bank_country_code: "AU"`.
+ 1. Providing `aba` is NOT enforced for `payment_method:"LOCAL"` and `bank_country_code: "US"`.
  2. For `bank_country_code:"CN"`, maximum length of `account_number` is only `9` characters (should be `20` as per requirements)
  3. For `bank_country_code:"CN"`, minimum length of `account_number` is only `7` characters (should be `8` as per requirements)
  4. For `bank_country_code:"US"`, `account_number:"0"` is saved Successfully. It doesn't appear to be valid account_number.
