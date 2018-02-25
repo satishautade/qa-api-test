@@ -12,10 +12,9 @@ import org.junit.runner.RunWith;
         "src/test/java/com/airwallex/bank/add_SWIFT_banks_account_name_validation.feature",
         "src/test/java/com/airwallex/bank/add_SWIFT_banks_account_number_validation.feature",
         "src/test/java/com/airwallex/bank/add_overseas_banks_SWIFT.feature"
-
 },
         format = {"pretty", "html:reports"},
-        tags = {"@cn", "@characters", "~@ignore"}
+        tags = { "~@ignore" }
 )
 public class BankRunnerTest {
 

@@ -113,7 +113,7 @@ Feature: Adding LOCAL bank details
       | ""                                                             | 400                  | account_number_required_error |
       # account number less than 6 characters long
       | "."                                                            | 400                  | invalid_account_number_error  |
-      | "0"                                                            | 400                  | account_number_required_error |
+      | "0"                                                            | 400                  | invalid_account_number_error |
       | "1"                                                            | 400                  | invalid_account_number_error  |
       | "12345"                                                        | 400                  | invalid_account_number_error  |
       | "@#$ ^"                                                        | 400                  | invalid_account_number_error  |
@@ -171,7 +171,7 @@ Feature: Adding LOCAL bank details
       | ""                                                             | 400                  | account_number_required_error |
       # account number less than 8 characters long
       | "."                                                            | 400                  | invalid_account_number_error  |
-      | "0"                                                            | 400                  | account_number_required_error |
+      | "0"                                                            | 400                  | invalid_account_number_error |
       | " "                                                            | 400                  | invalid_account_number_error  |
       | "1"                                                            | 400                  | invalid_account_number_error  |
       | "12345"                                                        | 400                  | invalid_account_number_error  |

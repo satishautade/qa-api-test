@@ -182,6 +182,12 @@ Feature: Adding overseas bank details - SWIFT
       # some parsing issues in running this string. Commenting it for now.
 #      | "a<u>?&rega<u>?&reg;{{=>'>%AE</u>}}" | 400                  | swift_code_length_error         |
 
+  @bug5 @ignore
+    Examples: swift_code of length 9 and 10 should NOT be saved successfully.
+    As per requirements, valid swift_code is either 8 or 11 characters long.
+      | swift_code   | expected_http_status | expected_response       |
+      | "1234AU7-9"  | 400                  | swift_code_length_error |
+      | "1234AU7-10" | 400                  | swift_code_length_error |
 
   @cn @characters
   Scenario Outline: 5th and 6th character in the SWIFT code for country CN
@@ -249,3 +255,10 @@ Feature: Adding overseas bank details - SWIFT
 
       # some parsing issues in running this string. Commenting it for now.
 #      | "a<u>?&rega<u>?&reg;{{=>'>%AE</u>}}" | 400                  | swift_code_length_error         |
+
+  @bug5 @ignore
+    Examples: swift_code of length 9 and 10 should NOT be saved successfully.
+    As per requirements, valid swift_code is either 8 or 11 characters long.
+      | swift_code   | expected_http_status | expected_response       |
+      | "1234CN7-9"  | 400                  | swift_code_length_error |
+      | "1234CN7-10" | 400                  | swift_code_length_error |
