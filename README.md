@@ -2,7 +2,7 @@
 
 ```sh
 cd /path/to/qa-api-test
-mvn clean test
+mvn clean test -Dcucumber.options="--tags ~@ignore"
 ```
 By default this executes the test on http://preview.airwallex.com:30001
 To change it to demo ( http://preview.airwallex.com:30001) run
